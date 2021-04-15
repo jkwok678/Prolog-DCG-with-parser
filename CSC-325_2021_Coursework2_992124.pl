@@ -14,11 +14,14 @@
 %
 %nbar(jp(adj(tall), jp(adj(young), n(men))))
 s(s(NP,VP)) --> np(NP,SP,P,subject),vp(VP,SP,P,_).
-np(np(DET,N),SP,_,_) --> det(DET,SP),nbar(N,SP).
+np(np(DET,NBAR),SP,_,_) --> det(DET,SP),nbar(NBAR,SP).
 np(np(PRO),SP,P,SO) --> pro(PRO,SP,P,SO).
-
+np(np(DET,NBAR,PP),SP,_,_)-->det(DET,SP),nbar(NBAR,SP),pp(PP,_,_,_).
 nbar(nbar(N),SP) -->n(N,SP).
 nbar(nbar(JPA),SP) --> jp(JPA,SP).
+
+pp(pp(PREP,NP,PPB),_,_,_)-->prep(PREP),np(NP,_,_,object),pp(PPB,_,_,_).
+pp(pp(PREP,NP),_,_,_)-->prep(PREP),np(NP,_,_,object).
 
 jp(jp(JPA,JPB),SP) --> adj(JPA),jp(JPB,SP).
 jp(jp(JPA,N),SP) -->adj(JPA),n(N,SP).
