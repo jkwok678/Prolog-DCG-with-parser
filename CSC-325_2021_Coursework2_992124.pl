@@ -13,12 +13,15 @@
 %vp(vp(V),SP,P) --> v(V,iv,SP,P).
 %
 %nbar(jp(adj(tall), jp(adj(young), n(men))))
-s(s(NP,VP)) --> np(NP,SP),vp(VP,SP).
-np(np(DET,N),SP) --> det(DET,SP),n(N,SP).
-vp(vp(V,NP),SP) --> v(V,tv,SP,3),np(NP,_).
-vp(vp(V,PRO),SP) --> v(V,tv,SP,3),pro(PRO,SP,_,object).
+s(s(NP,VP)) --> np(NP,SP,P,subject),vp(VP,SP,P,_).
+np(np(DET,N),SP,_,_) --> det(DET,SP),n(N,SP).
+np(np(PRO),SP,P,SO) --> pro(PRO,SP,P,SO).
+vp(vp(V,NP),SP,P,_) --> v(V,tv,SP,P),np(NP,_,_,_).
+vp(vp(V,NP),SP,P,_) --> v(V,tv,SP,P),np(NP,_,_,_).
 
-vp(vp(V),SP) --> v(V,iv,SP,_).
+vp(vp(V,PRO),SP,P,_) --> v(V,tv,SP,P),np(PRO,_,_,object).
+
+vp(vp(V),SP,_,_) --> v(V,iv,SP,_).
 
 
 
