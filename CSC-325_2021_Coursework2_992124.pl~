@@ -16,10 +16,15 @@
 s(s(NP,VP)) --> np(NP,SP,P,subject),vp(VP,SP,P,_).
 np(np(DET,N),SP,_,_) --> det(DET,SP),nbar(N,SP).
 np(np(PRO),SP,P,SO) --> pro(PRO,SP,P,SO).
-nbar(nbar(N),SP)-->n(N,SP).
-vp(vp(V,NP),SP,P,_) --> v(V,tv,SP,P),np(NP,_,_,_).
-vp(vp(V,NP),SP,P,_) --> v(V,tv,SP,P),np(NP,_,_,_).
-vp(vp(V,PRO),SP,P,_) --> v(V,tv,SP,P),np(PRO,_,_,object).
+
+nbar(nbar(N),SP) -->n(N,SP).
+nbar(nbar(JPA),SP) --> jp(JPA,SP).
+
+jp(jp(JPA,JPB),SP) --> adj(JPA),jp(JPB,SP).
+jp(jp(JPA,N),SP) -->adj(JPA),n(N,SP).
+
+vp(vp(V,NP),SP,P,_) --> v(V,tv,SP,P),np(NP,_,_,object).
+%vp(vp(V,PRO),SP,P,_) --> v(V,tv,SP,P),pro(PRO,_,_,object).
 vp(vp(V),SP,_,_) --> v(V,iv,SP,_).
 
 
