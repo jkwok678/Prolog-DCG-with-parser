@@ -13,30 +13,30 @@
 %vp(vp(V),SP,P) --> v(V,iv,SP,P).
 %
 %nbar(jp(adj(tall), jp(adj(young), n(men))))
-s(s(NP,VP)) --> np(NP,SP,P,subject),vp(VP,SP,P,_).
-np(np(DET,NBAR),SP,_,_) --> det(DET,SP),nbar(NBAR,SP).
-np(np(PRO),SP,P,SO) --> pro(PRO,SP,P,SO).
-np(np(DET,NBAR,PP),SP,_,_)-->det(DET,SP),nbar(NBAR,SP),pp(PP,_,_,_).
-nbar(nbar(N),SP) -->n(N,SP).
-nbar(nbar(JPA),SP) --> jp(JPA,SP).
+s(s(NP,VP)) --> np(NP,SP,P,subject,A),vp(VP,SP,P,_,A).
+np(np(DET,NBAR),SP,_,_,A) --> det(DET,SP),nbar(NBAR,SP,A).
+np(np(PRO),SP,P,SO,_) --> pro(PRO,SP,P,SO).
+np(np(DET,NBAR,PP),SP,_,_,A)-->det(DET,SP),nbar(NBAR,SP,A),pp(PP,_,_,_).
+nbar(nbar(N),SP,A) -->n(N,SP,A).
+nbar(nbar(JPA),SP,A) --> jp(JPA,SP,A).
 
-pp(pp(PREP,NP,PPB),_,_,_)-->prep(PREP),np(NP,_,_,object),pp(PPB,_,_,_).
-pp(pp(PREP,NP),_,_,_)-->prep(PREP),np(NP,_,_,object).
+pp(pp(PREP,NP,PPB),_,_,_)-->prep(PREP),np(NP,_,_,object,_),pp(PPB,_,_,_).
+pp(pp(PREP,NP),_,_,_)-->prep(PREP),np(NP,_,_,objec,_).
 
-jp(jp(JPA,JPB),SP) --> adj(JPA),jp(JPB,SP).
-jp(jp(JPA,N),SP) -->adj(JPA),n(N,SP).
+jp(jp(JPA,JPB),SP,A) --> adj(JPA),jp(JPB,SP,A).
+jp(jp(JPA,N),SP,A) -->adj(JPA),n(N,SP,A).
 
-vp(vp(V,NP),SP,P,_) --> v(V,tv,SP,P),np(NP,_,_,object).
+vp(vp(V,NP),SP,P,_,A) --> v(V,tv,SP,P,A),np(NP,_,_,object,_).
 %vp(vp(V,PRO),SP,P,_) --> v(V,tv,SP,P),pro(PRO,_,_,object).
-vp(vp(V),SP,P,_) --> v(V,iv,SP,P).
+vp(vp(V),SP,P,_,A) --> v(V,iv,SP,P,A).
 
 
 
 pro(pro(Word),SP,P,SO)-->[Word],{lex(Word,pro,SP,P,SO)}.
-v(v(Word),V,SP,P)-->[Word],{lex(Word,V,SP,P)}.
+v(v(Word),V,SP,P,A)-->[Word],{lex(Word,V,SP,P,A)}.
 
 det(det(Word),SP) --> [Word], {lex(Word,det,SP)}.
-n(n(Word),SP) --> [Word], {lex(Word,n,SP)}.
+n(n(Word),SP,A) --> [Word], {lex(Word,n,SP,A)}.
 
 prep(prep(Word)) --> [Word], {lex(Word,prep)}.
 adj(adj(Word)) --> [Word], {lex(Word,adj)}.
@@ -62,26 +62,26 @@ lex(them,pro,plural,3,object).
 
 
 %Verb
-lex(know,tv,singular,1).
-lex(know,tv,singular,2).
-lex(knows,tv,singular,3).
-lex(know,tv,plural,_).
-lex(see,tv,singular,1).
-lex(see,tv,singular,2).
-lex(sees,tv,singular,3).
-lex(see,tv,plural,_).
-lex(hire,tv,singular,1).
-lex(hire,tv,singular,2).
-lex(hires,tv,singular,3).
-lex(hire,tv,plural,_).
-lex(fall,iv,singular,1).
-lex(fall,iv,singular,2).
-lex(falls,iv,singular,3).
-lex(fall,iv,plural,_).
-lex(sleep,iv,singular,1).
-lex(sleep,iv,singular,2).
-lex(sleeps,iv,singular,3).
-lex(sleep,iv,plural,_).
+lex(know,tv,singular,1,animate).
+lex(know,tv,singular,2,animate).
+lex(knows,tv,singular,3,animate).
+lex(know,tv,plural,_,animate).
+lex(see,tv,singular,1,animate).
+lex(see,tv,singular,2,animate).
+lex(sees,tv,singular,3,animate).
+lex(see,tv,plural,_,animate).
+lex(hire,tv,singular,1,animate).
+lex(hire,tv,singular,2,animate).
+lex(hires,tv,singular,3,animate).
+lex(hire,tv,plural,_,animate).
+lex(fall,iv,singular,1,_).
+lex(fall,iv,singular,2,_).
+lex(falls,iv,singular,3,_).
+lex(fall,iv,plural,_,_).
+lex(sleep,iv,singular,1,animate).
+lex(sleep,iv,singular,2,animate).
+lex(sleeps,iv,singular,3,animate).
+lex(sleep,iv,plural,_,animate).
 
 
 %Determiner
@@ -93,16 +93,16 @@ lex(two,det,plural).
 
 
 %Noun
-lex(man,n,singular).
-lex(woman,n,singular).
-lex(apple,n,singular).
-lex(chair,n,singular).
-lex(room,n,singular).
-lex(men,n,plural).
-lex(women,n,plural).
-lex(apples,n,plural).
-lex(chairs,n,plural).
-lex(rooms,n,plural).
+lex(man,n,singular,animate).
+lex(woman,n,singular,animate).
+lex(apple,n,singular,inanimate).
+lex(chair,n,singular,inanimate).
+lex(room,n,singular,inanimate).
+lex(men,n,plural,animate).
+lex(women,n,plural,animate).
+lex(apples,n,plural,inanimate).
+lex(chairs,n,plural,inanimate).
+lex(rooms,n,plural,inanimate).
 
 %Preposition
 lex(on,prep).
@@ -118,7 +118,7 @@ lex(tall,adj).
 
 %1
 % ?- s(T,[the,woman,sees,the,apples],[]).T = s(np(det(the),
-% nbar(n(woman)))%, vp(v(sees), np(det(the), nbar(n(apples))))) ;
+% nbar(n(woman))), vp(v(sees), np(det(the), nbar(n(apples))))) ;
 %false.
 
 %2
@@ -290,8 +290,7 @@ lex(tall,adj).
 % nbar(n(chair))))))) ;
 % T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
 % pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the),
-% nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(...))))))), pp(prep(in),
-% np(det(the), nbar(n(room)))))), vp(v(sees), np(det(the),
+% nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(...))))))), pp(prep(in),% np(det(the), nbar(n(room)))))), vp(v(sees), np(det(the),
 % nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
 % nbar(n(chair))))))) ;
 % T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
@@ -323,4 +322,43 @@ lex(tall,adj).
 % nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(...)), pp(prep(...),
 % np(..., ...))))))))), vp(v(sees), np(det(the), nbar(jp(adj(red),
 % n(apples))), pp(prep(under), np(det(the), nbar(n(chair))))))) ;
+%false.
+
+%26
+%?- s(T,[the,woman,sees,the,apples],[]).
+% T = s(np(det(the), nbar(n(woman))), vp(v(sees), np(det(the),
+% nbar(n(apples))))) ;
+%false.
+
+%27
+%?- s(T,[a,woman,knows,him],[]).
+%T = s(np(det(a), nbar(n(woman))), vp(v(knows), np(pro(him)))) ;
+%false.
+
+%28
+%?- s(T,[a,man,sleeps],[]).
+%T = s(np(det(a), nbar(n(man))), vp(v(sleeps))) ;
+%false.
+
+%29
+%?- s(T,[the,room,sleeps],[]).
+%false.
+
+%30
+%?- s(T,[the,apple,sees,the,chair],[]).
+%false.
+
+%31
+%?- s(T,[the,room,knows,the,man],[]).
+%false.
+
+
+%32
+%?- s(T,[the,apple,falls],[]).
+%T = s(np(det(the), nbar(n(apple))), vp(v(falls))) ;
+%false.
+
+%33
+%?- s(T,[the,man,falls],[]).
+%T = s(np(det(the), nbar(n(man))), vp(v(falls))) ;
 %false.
