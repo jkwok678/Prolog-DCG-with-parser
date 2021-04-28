@@ -1,18 +1,4 @@
-%s(s(NP,VP)) --> np(NP,SP,P),vp(VP,SP,P).
-
-%np(np(DET,N),SP) --> det(DET,SP),n(N,SP).
-%np(np(PRO),SP,P) --> pro(PRO,SP,P,subject).
-%np(np(DET,NBAR,PP),SP) --> det(DET,SP),nbar(NBAR,SP),pp(PP).
-%nbar(nbar(N),SP) -->n(N,SP).
-%nbar(nbar(JPA,JPB),SP) --> jp(JPA,SP),jp(JPB,SP).
-%jp(jp(JPA,JPB),SP) --> adj(JPA),jp(JPB,SP).
-%jp(jp(JPA,N),SP) -->adj(JPA),n(N,SP).
-%pp(pp(PREP,NP)) --> prep(PREP),np(NP,_).
-%vp(vp(V,NP),SP,P) --> v(V,tv,SP,P),np(NP,_).
-%vp(vp(V,PRO),SP,P) --> v(V,tv,SP,P),pro(PRO,SP,_,object).
-%vp(vp(V),SP,P) --> v(V,iv,SP,P).
-%
-%nbar(jp(adj(tall), jp(adj(young), n(men))))
+%My code covers animacy as well.
 s(s(NP,VP)) --> np(NP,SP,P,subject,A),vp(VP,SP,P,_,A).
 np(np(DET,NBAR),SP,_,_,A) --> det(DET,SP),nbar(NBAR,SP,A).
 np(np(PRO),SP,P,SO,_) --> pro(PRO,SP,P,SO).
@@ -27,7 +13,6 @@ jp(jp(JPA,JPB),SP,A) --> adj(JPA),jp(JPB,SP,A).
 jp(jp(JPA,N),SP,A) -->adj(JPA),n(N,SP,A).
 
 vp(vp(V,NP),SP,P,_,A) --> v(V,tv,SP,P,A),np(NP,_,_,object,_).
-%vp(vp(V,PRO),SP,P,_) --> v(V,tv,SP,P),pro(PRO,_,_,object).
 vp(vp(V),SP,P,_,A) --> v(V,iv,SP,P,A).
 
 
@@ -117,14 +102,12 @@ lex(short,adj).
 lex(tall,adj).
 
 %1
-% ?- s(T,[the,woman,sees,the,apples],[]).T = s(np(det(the),
-% nbar(n(woman))), vp(v(sees), np(det(the), nbar(n(apples))))) ;
-%false.
+% ?- s(T,[the,woman,sees,the,apples],[]).
+%T = s(np(det(the),nbar(n(woman))), vp(v(sees), np(det(the), nbar(n(apples))))) .
 
 %2
 %?- s(T,[a,woman,knows,him],[]).
-%T = s(np(det(a), nbar(n(woman))), vp(v(knows), np(pro(him)))) ;
-%false.
+%T = s(np(det(a), nbar(n(woman))), vp(v(knows), np(pro(him)))) .
 
 %3
 %?- s(T,[two,woman,hires,a,man],[]).
@@ -133,13 +116,11 @@ lex(tall,adj).
 %4
 %?- s(T,[two,women,hire,a,man],[]).
 % T = s(np(det(two), nbar(n(women))), vp(v(hire), np(det(a),
-% nbar(n(man))))) ;
-%false.
+% nbar(n(man))))) .
 
 %5
 %?- s(T,[she,knows,her],[]).
-%T = s(np(pro(she)), vp(v(knows), np(pro(her)))) ;
-%false.
+%T = s(np(pro(she)), vp(v(knows), np(pro(her)))) .
 
 %6
 %
@@ -152,14 +133,12 @@ lex(tall,adj).
 
 %8
 %?- s(T,[we,see,the,apple],[]).
-%T = s(np(pro(we)), vp(v(see), np(det(the), nbar(n(apple))))) ;
-%false.
+%T = s(np(pro(we)), vp(v(see), np(det(the), nbar(n(apple))))) .
 
 %9
 %?- s(T,[i,know,a,short,man],[]).
 % T = s(np(pro(i)), vp(v(know), np(det(a), nbar(jp(adj(short),
-% n(man)))))) ;
-%false.
+% n(man)))))) .
 
 %10
 %?- s(T,[he,hires,they],[]).
@@ -167,34 +146,27 @@ lex(tall,adj).
 
 %11
 %?- s(T,[two,apples,fall],[]).
-%T = s(np(det(two), nbar(n(apples))), vp(v(fall))) ;
-%false.
+%T = s(np(det(two), nbar(n(apples))), vp(v(fall))) .
 
 %12
 %?- s(T,[the,apple,falls],[]).
-%T = s(np(det(the), nbar(n(apple))), vp(v(falls))) ;
-%false.
+%T = s(np(det(the), nbar(n(apple))), vp(v(falls))) .
 
 %13
 %?- s(T,[the,apples,fall],[]).
-%T = s(np(det(the), nbar(n(apples))), vp(v(fall))) ;
-%false.
+%T = s(np(det(the), nbar(n(apples))), vp(v(fall))) .
 
 %14
 %?- s(T,[i,sleep],[]).
-%T = s(np(pro(i)), vp(v(sleep))) ;
-%false.
+%T = s(np(pro(i)), vp(v(sleep))) .
 
 %15
 %?- s(T,[you,sleep],[]).
-%T = s(np(pro(you)), vp(v(sleep))) ;
-%T = s(np(pro(you)), vp(v(sleep))) ;
-%false.
+%T = s(np(pro(you)), vp(v(sleep))) .
 
 %16
 %?- s(T,[she,sleeps],[]).
 %T = s(np(pro(she)), vp(v(sleeps))) ;
-%false.
 
 %17
 %?- s(T,[he,sleep],[]).
@@ -216,8 +188,7 @@ lex(tall,adj).
 %?- s(T,[the,young,tall,man,knows,the,old,short,woman],[]).
 % T = s(np(det(the), nbar(jp(adj(young), jp(adj(tall), n(man))))),
 % vp(v(knows), np(det(the), nbar(jp(adj(old), jp(adj(short),
-% n(woman))))))) ;
-%false.
+% n(woman))))))) .
 
 %22
 %?- s(T,[a,man,tall,knows,the,short,woman],[]).
@@ -227,118 +198,34 @@ lex(tall,adj).
 %?- s(T,[a,man,on,a,chair,sees,a,woman,in,a,room],[]).
 % T = s(np(det(a), nbar(n(man)), pp(prep(on), np(det(a),
 % nbar(n(chair))))), vp(v(sees), np(det(a), nbar(n(woman)), pp(prep(in),
-% np(det(a), nbar(n(room))))))) ;
-%false.
+% np(det(a), nbar(n(room))))))) .
 
 %24
 %?- s(T,[a,man,on,a,chair,sees,a,woman,a,room,in],[]).
 %false.
 
-%25
+% 25
 % ?-
-% s(T,[the,tall,young,woman,in,a,room,on,the,chair,in,a,room,in,the,room%,sees,the,red,apples,under,the,chair],[]).
-%
+% s(T,[the,tall,young,woman,in,a,room,on,the,chair,in,a,room,in,the,room,see%s,the,red,apples,under,the,chair],[]).
 % T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
 % pp(prep(in), np(det(a), nbar(n(room))), pp(prep(on), np(det(the),
 % nbar(n(chair))), pp(prep(in), np(det(a), nbar(n(room))), pp(prep(in),
 % np(det(the), nbar(n(room)))))))), vp(v(sees), np(det(the),
 % nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-%
-%
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room))), pp(prep(on), np(det(the),
-% nbar(n(chair))), pp(prep(in), np(det(a), nbar(n(room)), pp(prep(in),
-% np(det(the), nbar(n(...))))))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room))), pp(prep(on), np(det(the),
-% nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(room))))), pp(prep(in),
-% np(det(the), nbar(n(room))))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room))), pp(prep(on), np(det(the),
-% nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(room))), pp(prep(in),
-% np(det(the), nbar(n(...))))))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room))), pp(prep(on), np(det(the),
-% nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(room)), pp(prep(in),
-% np(det(...), nbar(...))))))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the),
-% nbar(n(chair))), pp(prep(in), np(det(a), nbar(n(room)))))),
-% pp(prep(in), np(det(the), nbar(n(room)))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the),
-% nbar(n(chair))))), pp(prep(in), np(det(a), nbar(n(room))), pp(prep(in),
-% np(det(the), nbar(n(room))))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the),
-% nbar(n(chair))))), pp(prep(in), np(det(a), nbar(n(room)), pp(prep(in),
-% np(det(the), nbar(n(room)))))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the),
-% nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(...))))))), pp(prep(in),% np(det(the), nbar(n(room)))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the),
-% nbar(n(chair))), pp(prep(in), np(det(a), nbar(n(room))), pp(prep(in),
-% np(det(the), nbar(n(...))))))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the),
-% nbar(n(chair))), pp(prep(in), np(det(a), nbar(n(room)), pp(prep(in),
-% np(det(...), nbar(...))))))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the),
-% nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(...))))), pp(prep(in),
-% np(det(the), nbar(n(room)))))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the),
-% nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(...))), pp(prep(in),
-% np(det(...), nbar(...))))))))), vp(v(sees), np(det(the),
-% nbar(jp(adj(red), n(apples))), pp(prep(under), np(det(the),
-% nbar(n(chair))))))) ;
-% T = s(np(det(the), nbar(jp(adj(tall), jp(adj(young), n(woman)))),
-% pp(prep(in), np(det(a), nbar(n(room)), pp(prep(on), np(det(the),
-% nbar(n(chair)), pp(prep(in), np(det(a), nbar(n(...)), pp(prep(...),
-% np(..., ...))))))))), vp(v(sees), np(det(the), nbar(jp(adj(red),
-% n(apples))), pp(prep(under), np(det(the), nbar(n(chair))))))) ;
-%false.
+% nbar(n(chair))))))) .
 
 %26
 %?- s(T,[the,woman,sees,the,apples],[]).
 % T = s(np(det(the), nbar(n(woman))), vp(v(sees), np(det(the),
-% nbar(n(apples))))) ;
-%false.
+% nbar(n(apples))))) .
 
 %27
 %?- s(T,[a,woman,knows,him],[]).
-%T = s(np(det(a), nbar(n(woman))), vp(v(knows), np(pro(him)))) ;
-%false.
+%T = s(np(det(a), nbar(n(woman))), vp(v(knows), np(pro(him)))) .
 
 %28
 %?- s(T,[a,man,sleeps],[]).
-%T = s(np(det(a), nbar(n(man))), vp(v(sleeps))) ;
-%false.
+%T = s(np(det(a), nbar(n(man))), vp(v(sleeps))) .
 
 %29
 %?- s(T,[the,room,sleeps],[]).
@@ -355,10 +242,8 @@ lex(tall,adj).
 
 %32
 %?- s(T,[the,apple,falls],[]).
-%T = s(np(det(the), nbar(n(apple))), vp(v(falls))) ;
-%false.
+%T = s(np(det(the), nbar(n(apple))), vp(v(falls))) .
 
 %33
 %?- s(T,[the,man,falls],[]).
-%T = s(np(det(the), nbar(n(man))), vp(v(falls))) ;
-%false.
+%T = s(np(det(the), nbar(n(man))), vp(v(falls))) .
